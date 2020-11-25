@@ -1,33 +1,79 @@
+import React from 'react';
+import { AppLoading } from 'expo';
+import { Container, Header, Content, Footer, Text, Button, Grid, Title, Col, Row} from 'native-base';
+import * as Font from 'expo-font';
+import { Ionicons } from '@expo/vector-icons';
 
-import React, {Component} from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+const llamarAPI = () => {
+  return fetch('http://www.boredapi.com/api/activity/')
+    .then((response) => response.json())
+    .then((json) => {
+      return json.activity;
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
 
+export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isReady: false,
+      respuesta: null
+    };
+  }
 
-export default class MainScreen extends Component{
+  async componentDidMount() {
+    await Font.loadAsync({
+      Roboto: require('native-base/Fonts/Roboto.ttf'),
+      Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
+      ...Ionicons.font,
+    });
+    this.setState({ isReady: true });
+  }
 
-    handlerLogout(){
-        this.props.onLogout();
+  render() {
+    if (!this.state.isReady) {
+      return <AppLoading />;
     }
 
-    render(){
-        return (
-            <View style={styles.container}>
-                <Text>Te has loggeado correctamente</Text>
-                <Button
-                    onPress={() => this.handlerLogout()}
-                    title="Cerrar sesión"
-                />
-            </View>
-        );
-    }
+    return (
+      <Container>
 
+        <Header style={{padding: 10}}>
+          <Title>API React-Native</Title>
+        </Header>
+
+        <Content>
+          <Grid>
+          <Col contentContainerStyle={{flex: 1}} style={{padding: 10}}>
+                <Row style={{justifyContent: 'center', padding: 10} }>
+                  <Text>Bored API React</Text>  
+                </Row>
+
+                <Row style={{justifyContent: 'center', padding: 10}}>
+                <Button onPress={() => this.handlerClick()}>
+                  <Text >Llamar API</Text>
+                    
+                </Button>
+                </Row>
+
+                <Row style={{justifyContent: 'center', padding: 10} }>
+                  <Text>{this.state.respuesta}</Text>  
+                </Row>
+              </Col>
+          </Grid>
+        </Content>
+        <Footer />
+      </Container>
+    );
+  }
+
+  handlerClick(){
+    llamarAPI().then(resp=> {
+      this.setState({respuesta: resp});
+    });
+  }
+  
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-});
