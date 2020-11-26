@@ -1,13 +1,15 @@
 import React, {Component} from 'react';
 
 import LoginScreen from "./Screens/LoginScreen";
-import MainScreen from "./Screens/MainScreen";
+import { StyleSheet} from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import {DrawerCustomNavigator} from './Navigators/DrawerCustomNavigator.js';
 
 export default class App extends Component{
 
     constructor(props){
         super(props);
-        this.state = {isLoggedIn:false}
+        this.state = {isLoggedIn:true}
     }
 
     setLogin(){
@@ -19,16 +21,26 @@ export default class App extends Component{
     }
 
     render(){
+      if(this.state.isLoggedIn){
+        return (
+          <NavigationContainer>
+            <DrawerCustomNavigator />
+          </NavigationContainer>  
+        );
 
-        let screen;
-        if(this.state.isLoggedIn){
-            screen = <MainScreen onLogout={() => this.setLogout()}/>
-        } else {
-            screen = <LoginScreen onLogin={() => this.setLogin()}/>
-        }
-
-        return screen;
-
+      } else {
+        return <LoginScreen onLogin={() => this.setLogin()}/>
+      }
     }
+    
+  }
 
-}
+    const styles = StyleSheet.create({
+        container: {
+          flex: 1,
+          backgroundColor: '#fff',
+          alignItems: 'center',
+          justifyContent: 'center',
+        },
+      });
+      

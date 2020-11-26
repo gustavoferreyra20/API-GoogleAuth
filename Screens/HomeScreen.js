@@ -1,21 +1,10 @@
 import React from 'react';
 import { AppLoading } from 'expo';
-import { Container, Header, Content, Footer, Text, Button, Grid, Title, Col, Row} from 'native-base';
+import { Container, Header, Content, Footer, Text, Grid, Title, Col, Row} from 'native-base';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 
-const llamarAPI = () => {
-  return fetch('http://www.boredapi.com/api/activity/')
-    .then((response) => response.json())
-    .then((json) => {
-      return json.activity;
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-};
-
-export default class App extends React.Component {
+export class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -40,27 +29,11 @@ export default class App extends React.Component {
 
     return (
       <Container>
-
-        <Header style={{padding: 10}}>
-          <Title>API React-Native</Title>
-        </Header>
-
         <Content>
           <Grid>
           <Col contentContainerStyle={{flex: 1}} style={{padding: 10}}>
                 <Row style={{justifyContent: 'center', padding: 10} }>
-                  <Text>Bored API React</Text>  
-                </Row>
-
-                <Row style={{justifyContent: 'center', padding: 10}}>
-                <Button onPress={() => this.handlerClick()}>
-                  <Text >Llamar API</Text>
-                    
-                </Button>
-                </Row>
-
-                <Row style={{justifyContent: 'center', padding: 10} }>
-                  <Text>{this.state.respuesta}</Text>  
+                  <Text>Bienvenido! abre el menú para seleccionar la API.</Text>  
                 </Row>
               </Col>
           </Grid>
