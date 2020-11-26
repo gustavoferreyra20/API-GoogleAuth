@@ -6,7 +6,7 @@ import { Icon } from 'react-native-elements'
 export class DrawerContentScreen extends Component {
 
     handlerLogout(){
-        console.log("Logout");
+        console.log("Salir");
     }
 
     render(){
